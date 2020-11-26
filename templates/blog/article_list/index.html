@@ -1,0 +1,13 @@
+{% extends 'blog/base.html' %}
+
+{% block title %}
+	All Articles
+{% endblock %}
+
+{% block content %}
+	{% for article in articles %}
+		{{ article.title }} <br>
+	{% empty %}
+		Articles don't exist
+	{% endfor %}
+{% endblock %}
