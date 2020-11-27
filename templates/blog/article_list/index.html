@@ -6,7 +6,7 @@
 
 {% block content %}
 	{% for article in articles %}
-		{{ article.title }} <br>
+		<a href='{{ article.get_absolute_url }}'>{{ article.title }}</a> <br>
 	{% empty %}
 		Articles don't exist
 	{% endfor %}
