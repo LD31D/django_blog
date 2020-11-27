@@ -6,7 +6,13 @@
 
 {% block content %}
 	{% for article in articles %}
-		<a href='{{ article.get_absolute_url }}'>{{ article.title }}</a> <br>
+		<div class="card w-75">
+		  <h5 class="card-header">{{ article.title }}</h5>
+		  <div class="card-body">
+		    <p class="card-text">{{ article.body }}</p>
+		    <a href="{{ article.get_absolute_url }}" class="btn btn-primary">Read more</a>
+		  </div>
+		</div>
 	{% empty %}
 		Articles don't exist
 	{% endfor %}
