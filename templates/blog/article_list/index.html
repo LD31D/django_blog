@@ -9,7 +9,7 @@
 		<div class="card w-75">
 		  <h5 class="card-header">{{ article.title }}</h5>
 		  <div class="card-body">
-		    <p class="card-text">{{ article.body }}</p>
+		    <p class="card-text">{{ article.body|truncatewords:50|striptags }}</p>
 		    <a href="{{ article.get_absolute_url }}" class="btn btn-primary">Read more</a>
 		  </div>
 		</div>

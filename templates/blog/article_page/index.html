@@ -6,6 +6,10 @@
 
 {% block content %}
 	<h1>{{ article.title }}</h1>
+
+	<h5>Author: {{ article.author }}</h5>
+	{{ article.published }}
+	
 	<hr>
-	{{ article.body }}
+	{{ article.body|safe }}
 {% endblock %}
