@@ -1,0 +1,21 @@
+{% extends 'blog/base.html' %}
+
+{% block title %}
+	All Articles
+{% endblock %}
+
+{% block content %}
+	{% for article in articles %}
+		<div class="card w-75">
+		  <h5 class="card-header">{{ article.title }}</h5>
+		  <div class="card-body">
+		    <p class="card-text">{{ article.body|truncatewords:50|striptags }}</p>
+		    <a href="{{ article.get_absolute_url }}" class="btn btn-primary">Read more</a>
+		  </div>
+		</div>
+	{% empty %}
+		Articles don't exist
+	{% endfor %}
+
+	<br>{% include "blog/article_list/pagination.html" %}
+{% endblock %}

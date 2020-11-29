@@ -1,0 +1,8 @@
+from .development import *
+
+# from .production import *
+
+try:
+	from .local import *
+except ImportError:
+	pass
