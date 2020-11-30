@@ -1,0 +1,15 @@
+{% for comment in comments %}
+	<div class="card">
+	  <div class="card-header">
+	    {{ comment.author.username }}
+	  </div>
+	  <div class="card-body">
+	    <blockquote class="blockquote mb-0">
+	      <p>{{ comment.body }}</p>
+	      <footer class="blockquote-footer">{{ comment.created }}</footer>
+	    </blockquote>
+	  </div>
+	</div>
+{% empty %}
+	Comments don't exist
+{% endfor %}

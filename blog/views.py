@@ -3,7 +3,7 @@ from django.views.generic import ListView, View
 
 from .models import Article
 
-
+	
 class ArtileListView(ListView):
     queryset = Article.was_published.all()
     paginate_by = 1
@@ -12,7 +12,17 @@ class ArtileListView(ListView):
 
 
 class ArticleView(View):
-	def get(self, request, slug):
+	def get_objects(self, slug):
 		article = get_object_or_404(Article, status='published', slug=slug)
-		context = {'article': article}
+		comments = article.comments.filter(active=True)
+
+		context = {
+			'article': article,
+			'comments': comments
+			}
+		return context
+
+	def get(self, request, slug):
+		context = self.get_objects(slug)
+		
 		return render(request, 'blog/article_page/index.html', context=context)
