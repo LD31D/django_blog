@@ -3,6 +3,8 @@ from django.utils import timezone
 from django.urls import reverse
 from django.contrib.auth.models import User
 
+from taggit.managers import TaggableManager
+
 
 class WasPublishedManager(models.Manager):
 	def get_queryset(self):
@@ -21,6 +23,7 @@ class Article(models.Model):
 	title = models.CharField(max_length=256)
 	slug = models.SlugField(max_length=256, unique=True)
 	author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='articles')
+	tags = TaggableManager()
 	body = models.TextField()
 	published = models.DateTimeField(default=timezone.now)
 	created = models.DateTimeField(auto_now_add=True)
