@@ -5,10 +5,7 @@ from django.contrib.auth.models import User
 
 from taggit.managers import TaggableManager
 
-
-class WasPublishedManager(models.Manager):
-	def get_queryset(self):
-		return super().get_queryset().filter(status='published')
+from .managers import WasPublishedManager
 
 
 class Article(models.Model):
