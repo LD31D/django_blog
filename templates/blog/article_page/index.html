@@ -7,9 +7,15 @@
 {% block content %}
 	<h1>{{ article.title }}</h1>
 
-	{% if not article.tags.all|length_is:"0" %}
-		<p class="tags">Tags: {{ article.tags.all|join:", " }}</p>
-	{% endif %}
+	<p class="tags">
+	    <span>Tags:</span>
+	    {% for tag in article.tags.all %}
+	        <a href="{% url 'blog:tag_view' tag.slug %}">
+	            {{ tag.name }}
+	        </a>
+	        {% if not forloop.last %}, {% endif %}
+	    {% endfor %}
+	</p>
 
 	<h5>Author: {{ article.author }}</h5>
 	{{ article.published }}
