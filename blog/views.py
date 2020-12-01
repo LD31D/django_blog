@@ -6,11 +6,15 @@ from .forms import CommentForm
 
 	
 class ArtileListView(ListView):
-    queryset = Article.was_published.all()
     paginate_by = 1
-    context_object_name = 'articles'
     template_name = 'blog/article_list/index.html'
+    context_object_name = 'articles'
 
+    def get_queryset(self):
+        articles = Article.was_published.all()
+
+        return articles
+        
 
 class ArticleView(View):
 	def get_objects(self, slug):
