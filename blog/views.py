@@ -1,5 +1,5 @@
 from django.shortcuts import get_object_or_404, render 
-from django.views.generic import ListView, View
+from django.views.generic import ListView, TemplateView
 
 from taggit.models import Tag
 
@@ -24,9 +24,11 @@ class ArtileListView(ListView):
     	return articles
 
 
-class ArticleView(View):
-	def get_objects(self, article_slug):
-		article = get_object_or_404(Article, status='published', slug=article_slug)
+class ArticleView(TemplateView):
+	template_name = 'blog/article_page/index.html'
+
+	def get_context_data(self, **kwargs):
+		article = get_object_or_404(Article, status='published', slug=kwargs["article_slug"])
 		comments = article.comments.filter(active=True)
 		comment_form = CommentForm()
 
@@ -37,12 +39,8 @@ class ArticleView(View):
 			}
 		return context
 
-	def get(self, request, article_slug):
-		context = self.get_objects(article_slug)
-		return render(request, 'blog/article_page/index.html', context=context)
-
-	def post(self, request, article_slug):
-		context = self.get_objects(article_slug)
+	def post(self, request, **kwargs):
+		context = self.get_context_data(**kwargs)
 
 		comment_form = CommentForm(data=request.POST)
 
@@ -54,4 +52,4 @@ class ArticleView(View):
 
 			new_comment.save()
 
-		return render(request, 'blog/article_page/index.html', context=context)
+		return render(request, self.template_name, context=context)
