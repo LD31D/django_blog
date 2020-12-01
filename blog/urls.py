@@ -4,5 +4,6 @@ from .views import *
 
 urlpatterns = [
     path('', ArtileListView.as_view()),
-    path('<str:slug>/', ArticleView.as_view(), name='article_view'),
+    path('<article_slug>/', ArticleView.as_view(), name='article_view'),
+    path('tag/<tag_slug>/', ArtileListView.as_view(), name='tag_view'),
 ]
