@@ -15,13 +15,20 @@ class ArtileListView(ListView):
     def get_queryset(self):
     	if 'tag_slug' in self.kwargs:
     		tag_slug = self.kwargs['tag_slug']
-    		tag = get_object_or_404(Tag, slug=tag_slug)
-    		articles = Article.was_published.filter(tags__in=[tag])
+    		self.tag = get_object_or_404(Tag, slug=tag_slug)
+    		articles = Article.was_published.filter(tags__in=[self.tag])
 
     	else:
+    		self.tag = None
     		articles = Article.was_published.all()
 
     	return articles
+
+    def get_context_data(self, **kwargs):
+	    data = super().get_context_data(**kwargs)
+
+	    data['tag'] = self.tag
+	    return data
 
 
 class ArticleView(TemplateView):
@@ -29,13 +36,18 @@ class ArticleView(TemplateView):
 
 	def get_context_data(self, **kwargs):
 		article = get_object_or_404(Article, status='published', slug=kwargs["article_slug"])
+
+		article_tags_ids = article.tags.values_list('id', flat=True)
+		similar_articles = Article.was_published.filter(tags__in=article_tags_ids).exclude(id=article.id)
+
 		comments = article.comments.filter(active=True)
 		comment_form = CommentForm()
 
 		context = {
 			'article': article,
 			'comments': comments,
-			'comment_form': comment_form
+			'comment_form': comment_form,
+			'similar_articles': similar_articles[:4]
 			}
 		return context
 
