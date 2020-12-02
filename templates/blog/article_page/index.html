@@ -14,7 +14,7 @@
 	        <a href="{% url 'blog:tag_view' tag.slug %}">
 	            {{ tag.name }}
 	        </a>
-	        
+
 	        {% if not forloop.last %}, {% endif %}
 	    {% endfor %}
 	</p>
@@ -26,5 +26,14 @@
 	{{ article.body|safe }}
 
 	<hr>
+
+	{% for similar_article in similar_articles %}
+		{% if forloop.first %} <h2>Similar articles</h2><br> {% endif %}
+
+		<a href="{{ similar_article.get_absolute_url }}">{{ similar_article.title }}</a><br>
+
+		{% if forloop.last %} <hr> {% endif %}
+	{% endfor %}
+
 	<br>{% include "blog/article_page/comments.html" %}
 {% endblock %}
