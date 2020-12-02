@@ -8,11 +8,13 @@
 	<h1>{{ article.title }}</h1>
 
 	<p class="tags">
-	    <span>Tags:</span>
 	    {% for tag in article.tags.all %}
+	    	{% if forloop.first %} <span>Tags:</span> {% endif %}
+
 	        <a href="{% url 'blog:tag_view' tag.slug %}">
 	            {{ tag.name }}
 	        </a>
+	        
 	        {% if not forloop.last %}, {% endif %}
 	    {% endfor %}
 	</p>

@@ -15,13 +15,20 @@ class ArtileListView(ListView):
     def get_queryset(self):
     	if 'tag_slug' in self.kwargs:
     		tag_slug = self.kwargs['tag_slug']
-    		tag = get_object_or_404(Tag, slug=tag_slug)
-    		articles = Article.was_published.filter(tags__in=[tag])
+    		self.tag = get_object_or_404(Tag, slug=tag_slug)
+    		articles = Article.was_published.filter(tags__in=[self.tag])
 
     	else:
+    		self.tag = None
     		articles = Article.was_published.all()
 
     	return articles
+
+    def get_context_data(self, **kwargs):
+	    data = super().get_context_data(**kwargs)
+	    
+	    data['tag'] = self.tag
+	    return data
 
 
 class ArticleView(TemplateView):

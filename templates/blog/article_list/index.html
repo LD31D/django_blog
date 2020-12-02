@@ -5,6 +5,10 @@
 {% endblock %}
 
 {% block content %}
+	{% if tag %}
+		<h2>Articles with tag '{{ tag }}'</h2>
+	{% endif %}
+
 	{% for article in articles %}
 		<div class="card w-75">
 		  <h5 class="card-header">{{ article.title }}</h5>
