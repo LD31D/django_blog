@@ -27,13 +27,24 @@
 
 	<hr>
 
-	{% for similar_article in similar_articles %}
-		{% if forloop.first %} <h2>Similar articles</h2><br> {% endif %}
+	<div class="list-group">
+		{% for similar_article in similar_articles %}
+			{% if forloop.first %} <h2>Similar articles</h2><br> {% endif %}
 
-		<a href="{{ similar_article.get_absolute_url }}">{{ similar_article.title }}</a><br>
+			<a href="{{ similar_article.get_absolute_url }}" class="list-group-item list-group-item-action">
+			    <div class="d-flex w-100 justify-content-between">
+			      <h5 class="mb-1">{{ similar_article.title }}</h5>
+			      <small>{{ similar_article.created|timesince }}</small>
+			    </div>
+			    <small>
+			    	{% for similar_article_tag in similar_article.tags.all %}
+			    		<span class="badge badge-primary badge-pill">{{ similar_article_tag.name }}</span>
+			    	{% endfor %}
+			    </small>
+			</a>
 
-		{% if forloop.last %} <hr> {% endif %}
-	{% endfor %}
+		{% endfor %}
+	</div>
 
 	<br>{% include "blog/article_page/comments.html" %}
 {% endblock %}
