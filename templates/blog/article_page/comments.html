@@ -1,10 +1,12 @@
 {%load crispy_forms_tags %} 
 
-<form action="" method="post">
-    {% csrf_token %}
-    {{ comment_form|crispy }}
-    <input type="submit" value="Submit">
-</form>
+{% if request.user.is_authenticated %}
+	<form action="" method="post">
+	    {% csrf_token %}
+	    {{ comment_form|crispy }}
+	    <input type="submit" value="Submit">
+	</form>
+{% endif %}
 
 {% with comments.count as total_comments %}
     <h2>{{ total_comments }} comment{{ total_comments|pluralize }}</h2>
