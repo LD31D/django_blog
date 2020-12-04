@@ -1,5 +1,6 @@
 from django.contrib import admin
 
+from .forms import CommentAdmin
 from .models import Article, Comment
 
 @admin.register(Article)
@@ -19,3 +20,4 @@ class CommentAdmin(admin.ModelAdmin):
     list_display = ('article', 'author', 'created', 'active')
     list_filter = ('active', 'created', 'updated')
     search_fields = ('body',)
+    form = CommentAdmin
