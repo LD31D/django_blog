@@ -23,7 +23,7 @@
 	{{ article.published }}
 	
 	<hr>
-	{{ article.body|linebreaks|safe }}
+	{{ article.body|safe|linebreaks }}
 
 	<hr>
 	{% include "blog/article_page/similar_articles.html" %}
