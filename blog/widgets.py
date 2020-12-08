@@ -1,6 +1,5 @@
 from django.forms.widgets import Textarea
 
-from config.settings import BASE_DIR
 
 class TextareaWidget(Textarea):
 
@@ -19,3 +18,4 @@ class TextareaWidget(Textarea):
                 "https://cdn.jsdelivr.net/npm/summernote@0.8.15/dist/summernote.min.css"
             )
         }
+        
