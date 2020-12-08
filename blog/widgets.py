@@ -1,10 +1,9 @@
 from django.forms.widgets import Textarea
 
-from config.settings import BASE_DIR
 
-class CommentWidget(Textarea):
+class TextareaWidget(Textarea):
 
-    template_name = 'widgets/comment.html'
+    template_name = 'widgets/textarea.html'
 
     class Media:
         js = (
@@ -19,3 +18,4 @@ class CommentWidget(Textarea):
                 "https://cdn.jsdelivr.net/npm/summernote@0.8.15/dist/summernote.min.css"
             )
         }
+        

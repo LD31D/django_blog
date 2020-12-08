@@ -39,3 +39,4 @@ class RegisterView(FormView):
 		user = form.save()
 		login(self.request, user)
 		return super(RegisterView, self).form_valid(form)
+		
