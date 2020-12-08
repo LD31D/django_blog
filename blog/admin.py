@@ -1,7 +1,8 @@
 from django.contrib import admin
 
-from .forms import CommentAdmin
 from .models import Article, Comment
+from .forms import CommentAdmin, ArticleAdmin
+
 
 @admin.register(Article)
 class ArticleAdmin(admin.ModelAdmin):
@@ -13,6 +14,7 @@ class ArticleAdmin(admin.ModelAdmin):
 	raw_id_fields = ('author',)
 	date_hierarchy = 'published'
 	ordering = ['status', 'published']
+	form = ArticleAdmin
 
 
 @admin.register(Comment)

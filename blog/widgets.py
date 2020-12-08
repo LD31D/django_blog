@@ -2,9 +2,9 @@ from django.forms.widgets import Textarea
 
 from config.settings import BASE_DIR
 
-class CommentWidget(Textarea):
+class TextareaWidget(Textarea):
 
-    template_name = 'widgets/comment.html'
+    template_name = 'widgets/textarea.html'
 
     class Media:
         js = (
