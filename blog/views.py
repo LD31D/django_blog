@@ -1,3 +1,4 @@
+from django.views.generic.edit import UpdateView 
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import get_object_or_404, render, redirect
 from django.views.generic import ListView, TemplateView, FormView
@@ -5,7 +6,7 @@ from django.views.generic import ListView, TemplateView, FormView
 from taggit.models import Tag
 
 from .models import Article
-from .forms import CommentForm, ArticleForm
+from .forms import CommentForm, ArticleForm, ArticleUpdateForm
 
 	
 class ArtileListView(ListView):
@@ -82,4 +83,12 @@ class ArticleCreateView(LoginRequiredMixin, FormView):
 			return redirect(article.get_absolute_url())
 		else:
 			return redirect('/blog/')
-	
+
+
+class ArticleEditView(LoginRequiredMixin, UpdateView):
+	template_name = 'blog/article_edit_page/index.html'
+	form_class = ArticleUpdateForm
+
+	def get_object(self, queryset=None):
+		article = get_object_or_404(Article, author=self.request.user, slug=self.kwargs.get("article_slug"))
+		return article

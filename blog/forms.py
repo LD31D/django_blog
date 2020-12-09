@@ -38,8 +38,21 @@ class ArticleForm(forms.ModelForm):
 
         if Article.objects.filter(slug=slug).exists():
             raise forms.ValidationError('Article with this title already exists')
-            
+
         return data
+
+    class Meta:
+        model = Article
+        fields = ('title', 'tags', 'body', 'status')
+        labels = {
+            'body': 'Article body '
+        }
+        widgets = {
+            'body': TextareaWidget(),
+        }
+
+
+class ArticleUpdateForm(forms.ModelForm):
 
     class Meta:
         model = Article
