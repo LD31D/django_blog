@@ -1,10 +1,10 @@
-from django.shortcuts import get_object_or_404, render 
-from django.views.generic import ListView, TemplateView
+from django.shortcuts import get_object_or_404, render, redirect
+from django.views.generic import ListView, TemplateView, FormView
 
 from taggit.models import Tag
 
 from .models import Article
-from .forms import CommentForm
+from .forms import CommentForm, ArticleForm
 
 	
 class ArtileListView(ListView):
@@ -65,3 +65,15 @@ class ArticleView(TemplateView):
 			new_comment.save()
 
 		return render(request, self.template_name, context=context)
+
+
+class ArticleCreateView(FormView):
+	template_name = 'blog/article_create_page/index.html'
+	form_class = ArticleForm
+
+	def form_valid(self, form):
+		article = form.save(commit=False)
+		article.author = self.request.user
+		article.save()
+		return redirect(article.get_absolute_url())
+	

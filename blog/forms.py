@@ -28,10 +28,23 @@ class CommentAdmin(forms.ModelForm):
         }
 
 
+class ArticleForm(forms.ModelForm):
+
+    class Meta:
+        model = Article
+        fields = ('title', 'tags', 'body', 'status')
+        labels = {
+            'body': 'Article body '
+        }
+        widgets = {
+            'body': TextareaWidget(),
+        }
+
+
 class ArticleAdmin(forms.ModelForm):
 
     class Meta:
-        models = Article
+        model = Article
         fields = '__all__'
         widgets = {
             'body': TextareaWidget(),
