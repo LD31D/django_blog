@@ -1,3 +1,4 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import get_object_or_404, render, redirect
 from django.views.generic import ListView, TemplateView, FormView
 
@@ -67,9 +68,10 @@ class ArticleView(TemplateView):
 		return render(request, self.template_name, context=context)
 
 
-class ArticleCreateView(FormView):
+class ArticleCreateView(LoginRequiredMixin, FormView):
 	template_name = 'blog/article_create_page/index.html'
 	form_class = ArticleForm
+	login_url = '/accounts/login/'
 
 	def form_valid(self, form):
 		article = form.save(commit=False)
