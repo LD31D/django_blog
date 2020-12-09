@@ -1,10 +1,12 @@
-from django.shortcuts import get_object_or_404, render 
-from django.views.generic import ListView, TemplateView
+from django.views.generic.edit import UpdateView 
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.shortcuts import get_object_or_404, render, redirect
+from django.views.generic import ListView, TemplateView, FormView
 
 from taggit.models import Tag
 
 from .models import Article
-from .forms import CommentForm
+from .forms import CommentForm, ArticleForm, ArticleUpdateForm
 
 	
 class ArtileListView(ListView):
@@ -65,3 +67,28 @@ class ArticleView(TemplateView):
 			new_comment.save()
 
 		return render(request, self.template_name, context=context)
+
+
+class ArticleCreateView(LoginRequiredMixin, FormView):
+	template_name = 'blog/article_create_page/index.html'
+	form_class = ArticleForm
+	login_url = '/accounts/login/'
+
+	def form_valid(self, form):
+		article = form.save(commit=False)
+		article.author = self.request.user
+		article.save()
+
+		if article.status == 'published':
+			return redirect(article.get_absolute_url())
+		else:
+			return redirect('/blog/')
+
+
+class ArticleEditView(LoginRequiredMixin, UpdateView):
+	template_name = 'blog/article_edit_page/index.html'
+	form_class = ArticleUpdateForm
+
+	def get_object(self, queryset=None):
+		article = get_object_or_404(Article, author=self.request.user, slug=self.kwargs.get("article_slug"))
+		return article
