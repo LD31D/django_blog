@@ -75,5 +75,9 @@ class ArticleCreateView(FormView):
 		article = form.save(commit=False)
 		article.author = self.request.user
 		article.save()
-		return redirect(article.get_absolute_url())
+
+		if article.status == 'published':
+			return redirect(article.get_absolute_url())
+		else:
+			return redirect('/blog/')
 	
