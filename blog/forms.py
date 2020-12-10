@@ -31,6 +31,19 @@ class CommentAdmin(forms.ModelForm):
 
 class ArticleForm(forms.ModelForm):
 
+    class Meta:
+        model = Article
+        fields = ('title', 'tags', 'body', 'status')
+        labels = {
+            'body': 'Article body '
+        }
+        widgets = {
+            'body': TextareaWidget(),
+        }
+
+
+class ArticleValidateForm(ArticleForm):
+
     def clean(self):
         data = super(ArticleForm, self).clean()
         title = data.get('title')
@@ -40,29 +53,6 @@ class ArticleForm(forms.ModelForm):
             raise forms.ValidationError('Article with this title already exists')
 
         return data
-
-    class Meta:
-        model = Article
-        fields = ('title', 'tags', 'body', 'status')
-        labels = {
-            'body': 'Article body '
-        }
-        widgets = {
-            'body': TextareaWidget(),
-        }
-
-
-class ArticleUpdateForm(forms.ModelForm):
-
-    class Meta:
-        model = Article
-        fields = ('title', 'tags', 'body', 'status')
-        labels = {
-            'body': 'Article body '
-        }
-        widgets = {
-            'body': TextareaWidget(),
-        }
 
 
 class ArticleAdmin(forms.ModelForm):

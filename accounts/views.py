@@ -21,7 +21,13 @@ class CustomLoginView(LoginView):
 	LOGIN_REDIRECT_URL = '/blog/'
 
 	def get_redirect_url(self):
-		return self.LOGIN_REDIRECT_URL
+		next_page = self.request.GET.get('next', '')
+
+		if not next_page:
+			return self.LOGIN_REDIRECT_URL
+			
+		else:
+			return next_page
 
 	def form_valid(self, form):
 		user = form.get_user()

@@ -6,7 +6,7 @@ from django.views.generic import ListView, TemplateView, FormView
 from taggit.models import Tag
 
 from .models import Article
-from .forms import CommentForm, ArticleForm, ArticleUpdateForm
+from .forms import CommentForm, ArticleForm, ArticleValidateForm
 
 	
 class ArtileListView(ListView):
@@ -71,7 +71,7 @@ class ArticleView(TemplateView):
 
 class ArticleCreateView(LoginRequiredMixin, FormView):
 	template_name = 'blog/article_create_page/index.html'
-	form_class = ArticleForm
+	form_class = ArticleValidateForm
 	login_url = '/accounts/login/'
 
 	def form_valid(self, form):
@@ -87,7 +87,7 @@ class ArticleCreateView(LoginRequiredMixin, FormView):
 
 class ArticleEditView(LoginRequiredMixin, UpdateView):
 	template_name = 'blog/article_edit_page/index.html'
-	form_class = ArticleUpdateForm
+	form_class = ArticleForm
 
 	def get_object(self, queryset=None):
 		article = get_object_or_404(Article, author=self.request.user, slug=self.kwargs.get("article_slug"))
