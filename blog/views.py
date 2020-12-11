@@ -1,5 +1,5 @@
-from django.views.generic.edit import UpdateView 
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.generic.edit import UpdateView, DeleteView
 from django.shortcuts import get_object_or_404, render, redirect
 from django.views.generic import ListView, TemplateView, FormView
 
@@ -88,6 +88,19 @@ class ArticleCreateView(LoginRequiredMixin, FormView):
 class ArticleEditView(LoginRequiredMixin, UpdateView):
 	template_name = 'blog/article_edit_page/index.html'
 	form_class = ArticleForm
+
+	def get_object(self, queryset=None):
+		article = get_object_or_404(Article, author=self.request.user, slug=self.kwargs.get("article_slug"))
+		return article
+
+
+class ArticleDeleteView(LoginRequiredMixin, DeleteView):
+	template_name = 'blog/article_edit_page/article_confirm_delete.html'
+	model = Article
+	success_url = '/blog/'
+
+	def get_success_url(self):
+		return self.success_url
 
 	def get_object(self, queryset=None):
 		article = get_object_or_404(Article, author=self.request.user, slug=self.kwargs.get("article_slug"))

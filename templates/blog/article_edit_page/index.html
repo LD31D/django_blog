@@ -15,4 +15,6 @@
 	    {{ form|crispy }}
 	    <input type="submit" value="Submit">
 	</form>
+	<br>
+	<a href="{% url 'blog:article_delete' article.slug %}" class="btn btn-dark">Delete</button>
 {% endblock %}
