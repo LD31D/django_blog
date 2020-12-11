@@ -10,7 +10,7 @@ from .forms import CommentForm, ArticleForm, ArticleValidateForm
 
 	
 class ArtileListView(ListView):
-    paginate_by = 1
+    paginate_by = 5
     template_name = 'blog/article_list/index.html'
     context_object_name = 'articles'
 

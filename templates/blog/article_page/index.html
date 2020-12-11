@@ -21,6 +21,12 @@
 
 	<h5>Author: {{ article.author }}</h5>
 	{{ article.published }}
+
+	{% if article.author == request.user %}
+		<br>
+		<br>
+		<a href="{% url 'blog:article_edit' article.slug %}" class="btn btn-secondary">Edit</a>
+	{% endif %}
 	
 	<hr>
 	{{ article.body|safe|linebreaks }}
