@@ -94,9 +94,15 @@ class ArticleEditView(LoginRequiredMixin, UpdateView):
 	template_name = 'blog/article_edit_page/index.html'
 	form_class = ArticleForm
 
+	def get_success_url(self):
+		if self.article.status == 'published':
+			return self.article.get_absolute_url()
+		else:
+			return '/blog/'
+
 	def get_object(self, queryset=None):
-		article = get_object_or_404(Article, author=self.request.user, slug=self.kwargs.get("article_slug"))
-		return article
+		self.article = get_object_or_404(Article, author=self.request.user, slug=self.kwargs.get("article_slug"))
+		return self.article
 
 
 class ArticleDeleteView(LoginRequiredMixin, DeleteView):
