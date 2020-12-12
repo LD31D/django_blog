@@ -24,12 +24,17 @@ class ArtileListView(ListView):
     		self.tag = None
     		articles = Article.was_published.all()
 
+    	self.query = self.request.GET.get('q', '')
+    	if self.query:
+    		articles = articles.filter(title__icontains=self.query)
+
     	return articles
 
     def get_context_data(self, **kwargs):
 	    data = super().get_context_data(**kwargs)
 
 	    data['tag'] = self.tag
+	    data['query'] = self.query
 	    return data
 
 
