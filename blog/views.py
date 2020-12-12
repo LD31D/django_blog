@@ -1,5 +1,5 @@
-from django.views.generic.edit import UpdateView 
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.generic.edit import UpdateView, DeleteView
 from django.shortcuts import get_object_or_404, render, redirect
 from django.views.generic import ListView, TemplateView, FormView
 
@@ -10,7 +10,7 @@ from .forms import CommentForm, ArticleForm, ArticleValidateForm
 
 	
 class ArtileListView(ListView):
-    paginate_by = 1
+    paginate_by = 5
     template_name = 'blog/article_list/index.html'
     context_object_name = 'articles'
 
@@ -24,12 +24,17 @@ class ArtileListView(ListView):
     		self.tag = None
     		articles = Article.was_published.all()
 
+    	self.query = self.request.GET.get('q', '')
+    	if self.query:
+    		articles = articles.filter(title__icontains=self.query)
+
     	return articles
 
     def get_context_data(self, **kwargs):
 	    data = super().get_context_data(**kwargs)
 
 	    data['tag'] = self.tag
+	    data['query'] = self.query
 	    return data
 
 
@@ -88,6 +93,25 @@ class ArticleCreateView(LoginRequiredMixin, FormView):
 class ArticleEditView(LoginRequiredMixin, UpdateView):
 	template_name = 'blog/article_edit_page/index.html'
 	form_class = ArticleForm
+
+	def get_success_url(self):
+		if self.article.status == 'published':
+			return self.article.get_absolute_url()
+		else:
+			return '/blog/'
+
+	def get_object(self, queryset=None):
+		self.article = get_object_or_404(Article, author=self.request.user, slug=self.kwargs.get("article_slug"))
+		return self.article
+
+
+class ArticleDeleteView(LoginRequiredMixin, DeleteView):
+	template_name = 'blog/article_edit_page/article_confirm_delete.html'
+	model = Article
+	success_url = '/blog/'
+
+	def get_success_url(self):
+		return self.success_url
 
 	def get_object(self, queryset=None):
 		article = get_object_or_404(Article, author=self.request.user, slug=self.kwargs.get("article_slug"))

@@ -17,9 +17,12 @@
 		    <a href="{{ article.get_absolute_url }}" class="btn btn-primary">Read more</a>
 		  </div>
 		</div>
+		<br>
 	{% empty %}
-		Articles don't exist
+		<h1>Articles don't exist</h1>
 	{% endfor %}
 
-	<br>{% include "blog/article_list/pagination.html" %}
+	{% if articles %}
+		<br>{% include "blog/article_list/pagination.html" %}
+	{% endif %}
 {% endblock %}
