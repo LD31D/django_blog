@@ -19,7 +19,12 @@
 	    {% endfor %}
 	</p>
 
-	<h5>Author: {{ article.author }}</h5>
+	<h5>
+		Author: 
+		<a href="{% url 'profile:user_profile' article.author.username %}">
+			{{ article.author }}
+		</a>
+	</h5>
 	{{ article.published }}
 
 	{% if article.author == request.user %}
