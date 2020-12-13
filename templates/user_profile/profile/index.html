@@ -9,15 +9,17 @@
 	<hr>
 	
 	{% for article in user.articles.all %}
-		{% if forloop.first %} <h3>User articles: </h3> {% endif %}
-		
-		<div class="card w-75">
-		  <h5 class="card-header">{{ article.title }}</h5>
-		  <div class="card-body">
-		    <p class="card-text">{{ article.body|truncatewords:50|striptags }}</p>
-		    <a href="{{ article.get_absolute_url }}" class="btn btn-primary">Read more</a>
-		  </div>
-		</div>
-		<br>
+		{% if article.status == 'published' %}
+			{% if forloop.first %} <h3>User articles: </h3> {% endif %}
+
+			<div class="card w-75">
+			  <h5 class="card-header">{{ article.title }}</h5>
+			  <div class="card-body">
+			    <p class="card-text">{{ article.body|truncatewords:50|striptags }}</p>
+			    <a href="{{ article.get_absolute_url }}" class="btn btn-primary">Read more</a>
+			  </div>
+			</div>
+			<br>
+		{% endif %}
 	{% endfor %}
 {% endblock %}
