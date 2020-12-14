@@ -5,24 +5,41 @@
 {% endblock %}
 
 {% block content %}
-	{% if tag %}
-		<h2>Articles with tag '{{ tag }}'</h2>
-	{% endif %}
+    <div class="row">
+    	<div class="col-9">
+	    	{% if tag %}
+				<h2>Articles with tag '{{ tag.name }}'</h2>
+			{% endif %}
 
-	{% for article in articles %}
-		<div class="card w-75">
-		  <h5 class="card-header">{{ article.title }}</h5>
-		  <div class="card-body">
-		    <p class="card-text">{{ article.body|truncatewords:50|striptags }}</p>
-		    <a href="{{ article.get_absolute_url }}" class="btn btn-primary">Read more</a>
-		  </div>
+			{% for article in articles %}
+				<div class="card w-75">
+				  <h5 class="card-header">{{ article.title }}</h5>
+				  <div class="card-body">
+				    <p class="card-text">{{ article.body|truncatewords:50|striptags }}</p>
+				    <a href="{{ article.get_absolute_url }}" class="btn btn-primary">Read more</a>
+				  </div>
+				</div>
+				<br>
+			{% empty %}
+				<h1>Articles don't exist</h1>
+			{% endfor %}
+
+			{% if articles %}
+				<br>{% include "blog/article_list/pagination.html" %}
+			{% endif %}
 		</div>
-		<br>
-	{% empty %}
-		<h1>Articles don't exist</h1>
-	{% endfor %}
+		<div class="col-3">
+			<div class="list-group">
+				{% for popular_tag in most_common_tags%}
+					{% if forloop.first %}
+				  		<h3>Most Common Tags</h3>
+				  	{% endif %}
 
-	{% if articles %}
-		<br>{% include "blog/article_list/pagination.html" %}
-	{% endif %}
+				  	<a href="{% url 'blog:tag_view' popular_tag.slug %}" class="list-group-item list-group-item-action {% if tag.name == popular_tag.name %}active{% endif %}">
+				  		{{ popular_tag.name }}
+				  	</a>
+				{% endfor %}
+			</div>
+		</div>
+	</div>
 {% endblock %}

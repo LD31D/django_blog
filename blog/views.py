@@ -35,6 +35,7 @@ class ArtileListView(ListView):
 
 	    data['tag'] = self.tag
 	    data['query'] = self.query
+	    data['most_common_tags'] = Article.tags.most_common()[:5]
 	    return data
 
 
