@@ -1,7 +1,8 @@
 from django.shortcuts import redirect
 from django.views.generic import View, FormView
 from django.contrib.auth import logout, login
-from django.contrib.auth.views import LoginView
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.views import LoginView, PasswordChangeView
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 
 
@@ -45,4 +46,9 @@ class RegisterView(FormView):
 		user = form.save()
 		login(self.request, user)
 		return super(RegisterView, self).form_valid(form)
+
+
+class ChangePasswordView(LoginRequiredMixin, PasswordChangeView):
+	template_name = 'accounts/change_password/index.html'
+	success_url = '/blog/'
 		
