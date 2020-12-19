@@ -1,3 +1,4 @@
+from django.db.models import Q
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.edit import UpdateView, DeleteView
 from django.shortcuts import get_object_or_404, render, redirect
@@ -26,7 +27,7 @@ class ArtileListView(ListView):
 
     	self.query = self.request.GET.get('q', '')
     	if self.query:
-    		articles = articles.filter(title__icontains=self.query)
+    		articles = articles.filter(Q(title__icontains=self.query) | Q(body__icontains=self.query))
 
     	return articles
 
