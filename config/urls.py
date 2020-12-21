@@ -19,11 +19,14 @@ from django.contrib import admin
 from django.conf import settings
 from django.urls import path, include
 from django.conf.urls.static import static
+from django.views.generic.base import RedirectView
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('__debug__/', include(debug_toolbar.urls)),
+
+    path('', RedirectView.as_view(url='/blog/')),
     path('blog/', include(('blog.urls', 'blog'), namespace='blog')),
     path('accounts/', include(('accounts.urls', 'accounts'), namespace='accounts')),
     path('profile/', include(('user_profile.urls', 'user_profile'), namespace='profile')),
