@@ -2,8 +2,9 @@ from django.shortcuts import redirect
 from django.views.generic import View, FormView
 from django.contrib.auth import logout, login
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.auth.views import LoginView, PasswordChangeView
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
+from django.contrib.auth.views import LoginView, PasswordChangeView, \
+	PasswordResetView, PasswordResetDoneView, PasswordResetConfirmView, PasswordResetCompleteView
 
 
 class LogoutView(View):
@@ -51,4 +52,23 @@ class RegisterView(FormView):
 class ChangePasswordView(LoginRequiredMixin, PasswordChangeView):
 	template_name = 'accounts/change_password/index.html'
 	success_url = '/blog/'
+
+
+class ResetPasswordView(PasswordResetView):
+	template_name = 'accounts/reset_password/index.html'
+	email_template_name = 'accounts/reset_password/letter.html',
+	success_url = 'done/'
+
+
+class ResetPasswordDoneView(PasswordResetDoneView):
+	template_name = 'accounts/reset_password/done.html'
+
+
+class ResetPasswordConfirmView(PasswordResetConfirmView):
+	template_name = 'accounts/reset_password/confirm.html'
+	success_url = '/accounts/reset/done'
+
+
+class ResetPasswordCompleteView(PasswordResetCompleteView):
+	template_name = 'accounts/reset_password/complete.html'
 		
