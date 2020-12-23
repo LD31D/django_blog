@@ -2,9 +2,11 @@ from django.shortcuts import redirect
 from django.views.generic import View, FormView
 from django.contrib.auth import logout, login
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
+from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.views import LoginView, PasswordChangeView, \
 	PasswordResetView, PasswordResetDoneView, PasswordResetConfirmView, PasswordResetCompleteView
+
+from .forms import UserRegistrationForm
 
 
 class LogoutView(View):
@@ -39,7 +41,7 @@ class CustomLoginView(LoginView):
 
 class RegisterView(FormView):
 	template_name = 'accounts/register/index.html'
-	form_class = UserCreationForm
+	form_class = UserRegistrationForm
 
 	success_url = '/blog/'
 
