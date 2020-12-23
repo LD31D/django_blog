@@ -5,8 +5,11 @@ from .views import *
 
 urlpatterns = [
 	path('login/', CustomLoginView.as_view(), name='login'),
+	path('logout/', LogoutView.as_view(), name='logout'),
+
 	path('register/', RegisterView.as_view(), name='register'),
-    path('logout/', LogoutView.as_view(), name='logout'),
+	path('register/confirm/', RegisterConfirmView.as_view(), name='register_done'),
+	path('register/confirm/<slug>/', RegisterConfirmEmailView.as_view(), name='email_confirm'),
 
     path('change-password/', ChangePasswordView.as_view(), name='change_password'),
 

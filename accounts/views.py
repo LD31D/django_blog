@@ -1,11 +1,15 @@
-from django.shortcuts import redirect
-from django.views.generic import View, FormView
+from django.shortcuts import get_object_or_404, render, redirect
+
 from django.contrib.auth import logout, login
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.forms import AuthenticationForm
+
+from django.views.generic import View, FormView
+from django.views.generic.base import TemplateView
 from django.contrib.auth.views import LoginView, PasswordChangeView, \
 	PasswordResetView, PasswordResetDoneView, PasswordResetConfirmView, PasswordResetCompleteView
 
+from .models import EmailConfirm
 from .forms import UserRegistrationForm
 
 
@@ -43,12 +47,32 @@ class RegisterView(FormView):
 	template_name = 'accounts/register/index.html'
 	form_class = UserRegistrationForm
 
-	success_url = '/blog/'
+	success_url = 'confirm/'
 
 	def form_valid(self, form):
-		user = form.save()
-		login(self.request, user)
+		user = form.save(commit=False)
+		user.is_active = False
+		user.save()
+
 		return super(RegisterView, self).form_valid(form)
+
+
+class RegisterConfirmView(TemplateView):
+	template_name = 'accounts/register/confirm.html'
+
+
+class RegisterConfirmEmailView(TemplateView):
+	template_name = 'accounts/register/confirm_done.html'
+	
+	def get(self, request, slug):
+		email_confirl_model = get_object_or_404(EmailConfirm, activate_code=slug)
+
+		user = email_confirl_model.user
+		user.is_active = True
+		user.save()
+
+		email_confirl_model.delete()
+		return render(request, self.template_name)
 
 
 class ChangePasswordView(LoginRequiredMixin, PasswordChangeView):
