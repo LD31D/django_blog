@@ -37,7 +37,7 @@ class EmailConfirm(models.Model):
 
 def email_confirm(sender, **kwargs):
 	if kwargs['created']:
-		user_confirm_model = EmailConfirm.objects.create(user=kwargs['instance'])
+		EmailConfirm.objects.create(user=kwargs['instance'])
 
 
 post_save.connect(email_confirm, sender=User)

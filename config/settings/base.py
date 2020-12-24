@@ -112,3 +112,8 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR.joinpath('media')
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+AUTHENTICATION_BACKENDS = (
+    'accounts.authentication.EmailBackend',
+    # 'django.contrib.auth.backends.ModelBackend',
+)
