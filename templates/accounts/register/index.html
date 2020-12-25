@@ -12,4 +12,7 @@
 	    {{ form|crispy }}
 	    <input type="submit" value="Submit">
 	</form>
+
+	<br>
+	<a href="{% url 'accounts:login' %}" class="btn btn-dark">Login</a>
 {% endblock %}
