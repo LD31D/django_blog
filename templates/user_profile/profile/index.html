@@ -11,7 +11,11 @@
 
 	{% if user == request.user %}
 		<a href="{% url 'accounts:change_password' %}" class="btn btn-dark">Change Password</a>
+		<a href="{% url 'profile:user_profile_edit' %}" class="btn btn-dark">Edit Profile</a>
+		<br>
 	{% endif %}
+
+	<br>
 
 	{% if user.profile.bio %}
 		{{ user.profile.bio }}
