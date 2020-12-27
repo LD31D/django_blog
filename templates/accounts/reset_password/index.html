@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block title %}
-	Login
+	Reset Password
 {% endblock %}
 
 {% block content %}
@@ -12,7 +12,4 @@
 	    {{ form|crispy }}
 	    <input type="submit" value="Submit">
 	</form>
-
-	<br>
-	<a href="{% url 'accounts:reset_password' %}" class="btn btn-dark">Reset Password</a>
 {% endblock %}

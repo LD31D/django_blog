@@ -1,18 +1,17 @@
 {% extends 'base.html' %}
 
 {% block title %}
-	Login
+	Editting user profile
 {% endblock %}
 
 {% block content %}
-	{%load crispy_forms_tags %}
+	{% load crispy_forms_tags %}
+
+	<h1>Editting user profile</h1>
 
 	<form action="" method="post">
 	    {% csrf_token %}
 	    {{ form|crispy }}
 	    <input type="submit" value="Submit">
 	</form>
-
-	<br>
-	<a href="{% url 'accounts:reset_password' %}" class="btn btn-dark">Reset Password</a>
 {% endblock %}
